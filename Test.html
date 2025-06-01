@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compatibility Test | LoveMatch</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff5f5;
+        }
+        .question {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        .options label {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .options label:hover {
+            background: #e9ecef;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            display: block;
+            margin: 30px auto;
+        }
+        button:hover {
+            background-color: #ff5252;
+        }
+        .progress-bar {
+            height: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        .progress {
+            height: 100%;
+            background: #ff6b6b;
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        h1 {
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <h1>Compatibility Questionnaire</h1>
+    <p>Answer honestly for the most accurate results. There are no right or wrong answers.</p>
+    
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+
+    <form id="compatibilityTest">
+        <div class="question" id="q1">
+            <h3>1. How do you typically handle conflicts in a relationship?</h3>
+            <div class="options">
+                <label><input type="radio" name="q1" value="a"> I prefer to address issues immediately</label>
+                <label><input type="radio" name="q1" value="b"> I need some time to cool off before discussing</label>
+                <label><input type="radio" name="q1" value="c"> I avoid confrontation when possible</label>
+                <label><input type="radio" name="q1" value="d"> It depends on the situation</label>
+            </div>
+        </div>
+
+        <div class="question" id="q2" style="display: none;">
+            <h3>2. What's your approach to financial planning?</h3>
+            <div class="options">
+                <label><input type="radio" name="q2" value="a"> I prefer to save and plan carefully</label>
+                <label><input type="radio" name="q2" value="b"> I'm comfortable with some spontaneous spending</label>
+                <label><input type="radio" name="q2" value="c"> I don't worry much about money</label>
+                <label><input type="radio" name="q2" value="d"> I'm working on improving my financial habits</label>
+            </div>
+        </div>
+
+        <div class="question" id="q3" style="display: none;">
+            <h3>3. How important is alone time in a relationship?</h3>
+            <div class="options">
+                <label><input type="radio" name="q3" value="a"> Very important - I need regular alone time</label>
+                <label><input type="radio" name="q3" value="b"> Somewhat important - a balance is good</label>
+                <label><input type="radio" name="q3" value="c"> Not very important - I prefer to spend most time together</label>
+                <label><input type="radio" name="q3" value="d"> It varies depending on my mood</label>
+            </div>
+        </div>
+
+        <!-- Add more questions as needed -->
+
+        <button type="button" id="nextBtn">Next Question</button>
+        <button type="submit" id="submitBtn" style="display: none;">Get Results</button>
+    </form>
+
+    <script>
+        let currentQuestion = 1;
+        const totalQuestions = 3; // Update this with your total number of questions
+        
+        document.getElementById('nextBtn').addEventListener('click', function() {
+            // Validate current question is answered
+            const currentName = 'q' + currentQuestion;
+            if (!document.querySelector(`input[name="${currentName}"]:checked`)) {
+                alert('Please select an answer before continuing');
+                return;
+            }
+            
+            // Hide current question
+            document.getElementById('q' + currentQuestion).style.display = 'none';
+            
+            // Show next question or show submit button if last question
+            currentQuestion++;
+            if (currentQuestion <= totalQuestions) {
+                document.getElementById('q' + currentQuestion).style.display = 'block';
+            }
+            
+            // Update progress bar
+            const progressPercent = ((currentQuestion-1) / totalQuestions) * 100;
+            document.getElementById('progress').style.width = progressPercent + '%';
+            
+            // Show submit button on last question
+            if (currentQuestion > totalQuestions) {
+                document.getElementById('nextBtn').style.display = 'none';
+                document.getElementById('submitBtn').style.display = 'block';
+            }
+        });
+        
+        document.getElementById('submitBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            // Calculate results (simplified for this example)
+            let score = 0;
+            for (let i = 1; i <= totalQuestions; i++) {
+                const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                if (selected) {
+                    // Simple scoring - in a real app you'd have more complex logic
+                    if (selected.value === 'a' || selected.value === 'b') score += 2;
+                    else score += 1;
+                }
+            }
+            
+            // Store results and redirect
+            localStorage.setItem('compatibilityScore', score);
+            window.location.href = 'results.html';
+        });
+    </script>
+</body>
+</html>
