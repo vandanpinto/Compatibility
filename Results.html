@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Results | LoveMatch</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff5f5;
+        }
+        .result-card {
+            background: white;
+            padding: 30px;
+            margin: 20px 0;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .score {
+            font-size: 72px;
+            font-weight: bold;
+            color: #ff6b6b;
+            margin: 20px 0;
+        }
+        .meter {
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(to right, #ff6b6b, #ff8787);
+            width: 70%; /* This will be set by JavaScript */
+        }
+        .recommendations {
+            text-align: left;
+            margin-top: 40px;
+        }
+        .recommendations h3 {
+            color: #ff6b6b;
+            border-bottom: 2px solid #ff6b6b;
+            padding-bottom: 5px;
+        }
+        button {
+            background-color: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 20px 0;
+        }
+        button:hover {
+            background-color: #ff5252;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-card">
+        <h1>Your Compatibility Results</h1>
+        <div class="score" id="scoreDisplay">0%</div>
+        <div class="meter">
+            <div class="meter-fill" id="meterFill"></div>
+        </div>
+        <p id="resultText">Based on your responses, you and your partner have good potential for a strong relationship.</p>
+        
+        <div class="recommendations">
+            <h3>Recommendations</h3>
+            <ul id="recommendationsList">
+                <li>Schedule regular check-ins to discuss your relationship</li>
+                <li>Create a shared financial plan that works for both of you</li>
+                <li>Respect each other's need for personal space</li>
+            </ul>
+        </div>
+        
+        <button onclick="window.location.href='resources.html'">View Relationship Resources</button>
+        <button onclick="window.location.href='index.html'">Return Home</button>
+    </div>
+
+    <script>
+        // Get stored score or use demo value
+        let score = localStorage.getItem('compatibilityScore') || 5;
+        const maxScore = 6; // 3 questions * max 2 points each
+        
+        // Calculate percentage
+        const percentage = Math.round((score / maxScore) * 100);
+        
+        // Display results
+        document.getElementById('scoreDisplay').textContent = percentage + '%';
+        document.getElementById('meterFill').style.width = percentage + '%';
+        
+        // Customize result text based on score
+        const resultText = document.getElementById('resultText');
+        if (percentage >= 80) {
+            resultText.textContent = "Excellent compatibility! You and your partner are well-matched in key areas.";
+        } else if (percentage >= 60) {
+            resultText.textContent = "Good compatibility! You have a solid foundation with some areas to work on.";
+        } else if (percentage >= 40) {
+            resultText.textContent = "Moderate compatibility. There are significant differences to address.";
+        } else {
+            resultText.textContent = "Low compatibility. Consider counseling to address fundamental differences.";
+        }
+    </script>
+</body>
+</html>
